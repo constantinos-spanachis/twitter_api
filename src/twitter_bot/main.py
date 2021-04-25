@@ -53,5 +53,6 @@ class NarcissistBot:
 			except RuntimeError:
 				break
 
+
 if __name__ == '__main__':
 	NarcissistBot().favorite_tweet("python", 2)
