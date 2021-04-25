@@ -3,14 +3,21 @@ import tweepy
 from dotenv import load_dotenv, find_dotenv
 
 
-def check_env():
+def check_env() -> None:
+	"""Checks for a .env file in any of the subdirectories of your current file."""
 	if load_dotenv(find_dotenv()):
 		print("Successfully loaded the environment variables.")
 	else:
 		print("No environment was found. Please create a .env file using the .env.example")
 		
 		
-def create_twitter_api():
+def create_twitter_api() -> tweepy.API:
+	"""
+	Creates a twitter api using the required credentials and keys found in the .env file.
+	
+	Returns:
+		The twitter api.
+	"""
 	check_env()
 	
 	env_variable_keys = {"TWITTER_API_KEY", "TWITTER_SECRET_KEY", "TWITTER_ACCESS_TOKEN", "TWITTER_ACCESS_SECRET"}
@@ -25,8 +32,18 @@ def create_twitter_api():
 	return api
 
 
-def limit_handle(cursor, time_sleep=1000):
-	from time import time
+def limit_handle(cursor: tweepy.Cursor, time_sleep: int = 1000):
+	"""
+	Handles the Tweepy Cursor in order to avoid timeouts.
+	Args:
+		cursor: The tweepy cursor.
+		time_sleep: The time you want to break if a timeout occurs.
+
+	Returns:
+		The cursor's next value.
+	"""
+	import time
+	
 	try:
 		while True:
 			yield cursor.next()
